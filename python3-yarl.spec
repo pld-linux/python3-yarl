@@ -44,7 +44,7 @@ YARL (Yet another URL library) to jeszcze jedna biblioteka do URL-i.
 Summary:	API documentation for Python yarl module
 Summary(pl.UTF-8):	Dokumentacja API modułu Pythona yarl
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API documentation for Python yarl module.
