@@ -6,22 +6,22 @@
 Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
-Version:	1.7.2
-Release:	4
+Version:	1.8.1
+Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
 Source0:	https://files.pythonhosted.org/packages/source/y/yarl/yarl-%{version}.tar.gz
-# Source0-md5:	acd3eb25a9c46b10a699a3bee5fb9777
+# Source0-md5:	ff8f2843481cd11c3c674ce4f6fa167b
 URL:		https://pypi.org/project/yarl/
-BuildRequires:	python3-devel >= 1:3.6
+BuildRequires:	python3-devel >= 1:3.7
 BuildRequires:	python3-setuptools
 %if %{with tests}
 BuildRequires:	python3-idna >= 2.0
 BuildRequires:	python3-multidict >= 4.0
 BuildRequires:	python3-pytest >= 3.8.2
 BuildRequires:	python3-pytest-cov
-%if "%{py3_ver}" < "3.8"
+%if "%{py3_ver}" == "3.7"
 BuildRequires:	python3-typing_extensions >= 3.7.4
 %endif
 %endif
@@ -31,7 +31,7 @@ BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	python3-alabaster
 BuildRequires:	sphinx-pdg-3
 %endif
-Requires:	python3-modules >= 1:3.6
+Requires:	python3-modules >= 1:3.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -78,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %py3_install
 
-%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/yarl/_quoting_c.{c,pyx}
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/yarl/_quoting_c.pyx
 
 %clean
 rm -rf $RPM_BUILD_ROOT
