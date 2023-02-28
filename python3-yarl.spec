@@ -6,13 +6,13 @@
 Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
-Version:	1.8.1
+Version:	1.8.2
 Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
 Source0:	https://files.pythonhosted.org/packages/source/y/yarl/yarl-%{version}.tar.gz
-# Source0-md5:	ff8f2843481cd11c3c674ce4f6fa167b
+# Source0-md5:	57c82725b9f4895eecee45faf5e61a54
 URL:		https://pypi.org/project/yarl/
 BuildRequires:	python3-devel >= 1:3.7
 BuildRequires:	python3-setuptools
