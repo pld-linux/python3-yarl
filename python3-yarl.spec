@@ -25,6 +25,7 @@ BuildRequires:	python3-pytest-cov
 BuildRequires:	python3-typing_extensions >= 3.7.4
 %endif
 %endif
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.752
 %if %{with doc}
