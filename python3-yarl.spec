@@ -6,16 +6,18 @@
 Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
-Version:	1.8.2
+Version:	1.18.3
 Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
 Source0:	https://files.pythonhosted.org/packages/source/y/yarl/yarl-%{version}.tar.gz
-# Source0-md5:	57c82725b9f4895eecee45faf5e61a54
+# Source0-md5:	80b89d2b28be7345a38f099b2f839d7d
 URL:		https://pypi.org/project/yarl/
+BuildRequires:	python3-build
 BuildRequires:	python3-devel >= 1:3.7
-BuildRequires:	python3-setuptools
+BuildRequires:	python3-expandvars
+BuildRequires:	python3-installer
 %if %{with tests}
 BuildRequires:	python3-idna >= 2.0
 BuildRequires:	python3-multidict >= 4.0
@@ -27,7 +29,7 @@ BuildRequires:	python3-typing_extensions >= 3.7.4
 %endif
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	rpmbuild(macros) >= 2.044
 %if %{with doc}
 BuildRequires:	python3-alabaster
 BuildRequires:	sphinx-pdg-3
@@ -56,17 +58,17 @@ Dokumentacja API modułu Pythona yarl.
 %prep
 %setup -q -n yarl-%{version}
 
+sed -i -e 's#--numprocesses=auto##g' pytest.ini
+
 %build
-%py3_build
+%py3_build_pyproject
 
 %if %{with tests}
+%{__python} -m zipfile -e build-3/*.whl build-3-test
 # run from dir not containing yarl source dir without compiled yarl._quoting_c module)
-cd tests
-PYTHONPATH=$(echo $(pwd)/../build-3/lib.*) \
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-PYTEST_PLUGINS="pytest_cov.plugin" \
-%{__python3} -m pytest
-cd ..
+PYTEST_PLUGINS="benchmark" \
+%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
 %endif
 
 %if %{with doc}
@@ -77,7 +79,7 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
+%py3_install_pyproject
 
 %{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/yarl/_quoting_c.pyx
 
@@ -93,7 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/yarl/*.pyi
 %{py3_sitedir}/yarl/py.typed
 %{py3_sitedir}/yarl/__pycache__
-%{py3_sitedir}/yarl-%{version}-py*.egg-info
+%{py3_sitedir}/yarl-%{version}.dist-info
 
 %if %{with doc}
 %files apidocs
