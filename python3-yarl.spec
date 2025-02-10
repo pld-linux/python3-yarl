@@ -23,6 +23,7 @@ BuildRequires:	python3-idna >= 2.0
 BuildRequires:	python3-multidict >= 4.0
 BuildRequires:	python3-pytest >= 3.8.2
 BuildRequires:	python3-pytest-cov
+BuildRequires:	python3-pytest-xdist
 %if "%{py3_ver}" == "3.7"
 BuildRequires:	python3-typing_extensions >= 3.7.4
 %endif
@@ -58,8 +59,6 @@ Dokumentacja API modułu Pythona yarl.
 %prep
 %setup -q -n yarl-%{version}
 
-sed -i -e 's#--numprocesses=auto##g' pytest.ini
-
 %build
 %py3_build_pyproject
 
@@ -67,7 +66,7 @@ sed -i -e 's#--numprocesses=auto##g' pytest.ini
 %{__python} -m zipfile -e build-3/*.whl build-3-test
 # run from dir not containing yarl source dir without compiled yarl._quoting_c module)
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-PYTEST_PLUGINS="benchmark" \
+PYTEST_PLUGINS="benchmark,xdist" \
 %{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
 %endif
 
