@@ -7,7 +7,7 @@ Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
 Version:	1.18.3
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
@@ -60,6 +60,9 @@ Dokumentacja API modułu Pythona yarl.
 
 %prep
 %setup -q -n yarl-%{version}
+
+# keep *.c files so debuginfo will pick it up
+sed -i -e 's#build_inplace: bool = False,#build_inplace: bool = True,#g' -e 's#build_inplace=False#build_inplace=True#g' packaging/pep517_backend/_backend.py
 
 %build
 %py3_build_pyproject
