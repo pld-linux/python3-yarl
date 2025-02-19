@@ -22,6 +22,7 @@ BuildRequires:	python3-installer
 %if %{with tests}
 BuildRequires:	python3-idna >= 2.0
 BuildRequires:	python3-multidict >= 4.0
+BuildRequires:	python3-propcache
 BuildRequires:	python3-pytest >= 3.8.2
 BuildRequires:	python3-pytest-cov
 BuildRequires:	python3-pytest-xdist
