@@ -14,6 +14,7 @@ Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/y/yarl/yarl-%{version}.tar.gz
 # Source0-md5:	80b89d2b28be7345a38f099b2f839d7d
 URL:		https://pypi.org/project/yarl/
+BuildRequires:	python3-Cython >= 3.0.11
 BuildRequires:	python3-build
 BuildRequires:	python3-devel >= 1:3.7
 BuildRequires:	python3-expandvars
