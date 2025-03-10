@@ -7,7 +7,7 @@ Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
 Version:	1.18.3
-Release:	2
+Release:	3
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
