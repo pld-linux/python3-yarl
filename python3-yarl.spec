@@ -6,13 +6,13 @@
 Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
-Version:	1.18.3
-Release:	4
+Version:	1.19.0
+Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
 Source0:	https://files.pythonhosted.org/packages/source/y/yarl/yarl-%{version}.tar.gz
-# Source0-md5:	80b89d2b28be7345a38f099b2f839d7d
+# Source0-md5:	caef211f38f3d8c8fcc94bd78349f4e2
 URL:		https://pypi.org/project/yarl/
 BuildRequires:	python3-Cython >= 3.0.11
 BuildRequires:	python3-build
@@ -24,6 +24,7 @@ BuildRequires:	python3-idna >= 2.0
 BuildRequires:	python3-multidict >= 4.0
 BuildRequires:	python3-propcache
 BuildRequires:	python3-pytest >= 3.8.2
+BuildRequires:	python3-pytest-benchmark
 BuildRequires:	python3-pytest-cov
 BuildRequires:	python3-pytest-xdist
 %if "%{py3_ver}" == "3.7"
@@ -96,7 +97,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py3_sitedir}/yarl
 %attr(755,root,root) %{py3_sitedir}/yarl/_quoting_c.cpython-*.so
 %{py3_sitedir}/yarl/*.py
-%{py3_sitedir}/yarl/*.pyi
 %{py3_sitedir}/yarl/py.typed
 %{py3_sitedir}/yarl/__pycache__
 %{py3_sitedir}/yarl-%{version}.dist-info
