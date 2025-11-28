@@ -77,10 +77,10 @@ sed -i -e 's#build_inplace: bool = False,#build_inplace: bool = True,#g' -e 's#b
 %py3_build_pyproject
 
 %if %{with tests}
-%{__python} -m zipfile -e build-3/*.whl build-3-test
+%{__python3} -m zipfile -e build-3/*.whl build-3-test
 # run from dir not containing yarl source dir without compiled yarl._quoting_c module)
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-PYTEST_PLUGINS="benchmark,xdist" \
+PYTEST_PLUGINS="xdist" \
 %{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
 %endif
 
