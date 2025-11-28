@@ -30,9 +30,10 @@ BuildRequires:	python3-idna >= 3.10
 BuildRequires:	python3-multidict >= 6.4.4
 BuildRequires:	python3-propcache >= 0.3.1
 BuildRequires:	python3-pytest >= 8.3.0
-BuildRequires:	python3-pytest-benchmark
+#BuildRequires:	python3-pytest-benchmark
 BuildRequires:	python3-pytest-cov >= 2.3.1
 BuildRequires:	python3-pytest-xdist
+#BuildRequires:	python3-pytest_codspeed
 %if "%{py3_ver}" == "3.7"
 BuildRequires:	python3-typing_extensions >= 3.7.4
 %endif
@@ -78,10 +79,13 @@ sed -i -e 's#build_inplace: bool = False,#build_inplace: bool = True,#g' -e 's#b
 
 %if %{with tests}
 %{__python3} -m zipfile -e build-3/*.whl build-3-test
-# run from dir not containing yarl source dir without compiled yarl._quoting_c module)
+# Run from dir not containing yarl source dir without compiled yarl._quoting_c module).
+# benchmark doesn't work with xdist and raises warning exception, so don't load both plugins;
+# xdist is required by pytest options in config;
+# benchark tests are skipped automatically only if pytest_codspeed is not found, so here must be skipped explicitly
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTEST_PLUGINS="xdist" \
-%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
+%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests --ignore tests/test_quoting_benchmarks.py --ignore tests/test_url_benchmarks.py
 %endif
 
 %if %{with doc}
