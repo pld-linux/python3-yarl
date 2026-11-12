@@ -7,7 +7,7 @@ Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
 Version:	1.25.1
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
@@ -30,7 +30,8 @@ BuildRequires:	python3-hypothesis >= 6.0
 BuildRequires:	python3-idna >= 3.10
 BuildRequires:	python3-multidict >= 6.4.4
 BuildRequires:	python3-propcache >= 0.3.1
-BuildRequires:	python3-pydantic
+# optional, tests/test_pydantic.py is skipped without it
+#BuildRequires:	python3-pydantic
 BuildRequires:	python3-pytest >= 8.3.0
 #BuildRequires:	python3-pytest-benchmark
 BuildRequires:	python3-pytest-cov >= 2.3.1
