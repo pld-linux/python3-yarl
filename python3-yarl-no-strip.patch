@@ -1,0 +1,18 @@
+Don't link the extension with -s: it leaves nothing for -debuginfo/-debugsource.
+https://github.com/aio-libs/yarl/issues/1592
+
+--- yarl-1.25.1.orig/packaging/pep517_backend/_cython_configuration.py	2026-09-15 20:33:08.587139100 +0200
++++ yarl-1.25.1/packaging/pep517_backend/_cython_configuration.py	2026-11-12 01:35:28.826454266 +0100
+@@ -251,10 +251,8 @@
+                 '--coverage',
+             )
+             if cython_line_tracing_requested
+-            # Release mode:
+-            else (
+-                '-s',  # remove all symbol table and relocation information
+-            )
++            # Release mode: no '-s', rpm strips into -debuginfo itself
++            else ()
+         ),
+         # Finally, append the user-set env var, ensuring its top priority:
+         orig_env.get('LDFLAGS', ''),

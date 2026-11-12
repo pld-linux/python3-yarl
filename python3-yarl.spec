@@ -6,17 +6,18 @@
 Summary:	Yet another URL library
 Summary(pl.UTF-8):	Yet another URL library - jeszcze jedna biblioteka do URL-i
 Name:		python3-yarl
-Version:	1.20.1
+Version:	1.25.1
 Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/yarl/
 Source0:	https://files.pythonhosted.org/packages/source/y/yarl/yarl-%{version}.tar.gz
-# Source0-md5:	23352fbc2b165825d4a33682c91788bc
+# Source0-md5:	e79fd328e8d575b8c7a1766fc7fede31
+Patch0:		%{name}-no-strip.patch
 URL:		https://pypi.org/project/yarl/
 BuildRequires:	python3-Cython >= 3.1.2
 BuildRequires:	python3-build
-BuildRequires:	python3-devel >= 1:3.9
+BuildRequires:	python3-devel >= 1:3.10
 BuildRequires:	python3-expandvars
 BuildRequires:	python3-installer
 BuildRequires:	python3-setuptools >= 1:47
@@ -29,6 +30,7 @@ BuildRequires:	python3-hypothesis >= 6.0
 BuildRequires:	python3-idna >= 3.10
 BuildRequires:	python3-multidict >= 6.4.4
 BuildRequires:	python3-propcache >= 0.3.1
+BuildRequires:	python3-pydantic
 BuildRequires:	python3-pytest >= 8.3.0
 #BuildRequires:	python3-pytest-benchmark
 BuildRequires:	python3-pytest-cov >= 2.3.1
@@ -43,11 +45,11 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 2.044
 %if %{with doc}
 BuildRequires:	python3-alabaster
-BuildRequires:	python3-myst_parser >= 0.10.0
+BuildRequires:	python3-myst_parser >= 5.1.0
 BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	sphinx-pdg-3 >= 8.2.3
 %endif
-Requires:	python3-modules >= 1:3.9
+Requires:	python3-modules >= 1:3.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,11 +72,11 @@ Dokumentacja API modułu Pythona yarl.
 
 %prep
 %setup -q -n yarl-%{version}
-
-# keep *.c files so debuginfo will pick it up
-sed -i -e 's#build_inplace: bool = False,#build_inplace: bool = True,#g' -e 's#build_inplace=False#build_inplace=True#g' packaging/pep517_backend/_backend.py
+%patch -P0 -p1
 
 %build
+# in-tree build keeps the cythonized *.c files for debuginfo
+export YARL_BUILD_INPLACE=1
 %py3_build_pyproject
 
 %if %{with tests}
@@ -85,7 +87,7 @@ sed -i -e 's#build_inplace: bool = False,#build_inplace: bool = True,#g' -e 's#b
 # benchark tests are skipped automatically only if pytest_codspeed is not found, so here must be skipped explicitly
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTEST_PLUGINS="xdist" \
-%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests --ignore tests/test_quoting_benchmarks.py --ignore tests/test_url_benchmarks.py
+%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests --ignore tests/test_query_benchmarks.py --ignore tests/test_quoting_benchmarks.py --ignore tests/test_url_benchmarks.py
 %endif
 
 %if %{with doc}
